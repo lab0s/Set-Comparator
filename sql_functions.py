@@ -1,5 +1,4 @@
 import pyodbc  # https://github.com/mkleehammer/pyodbc/wiki
-import os
 from pprint import pprint
 
 
@@ -15,6 +14,31 @@ connection = pyodbc.connect(
     connection_string,
     autocommit=autocommit,
 )
+
+def get_TE_folders_subfolders():
+    test_dict = {}
+
+    testID_SQL = "SELECT ng_exampleid FROM ng_testexample0"
+    cursor_testID_set = connection.cursor().execute(testID_SQL).fetchall()
+
+    for row_testID in cursor_testID_set:
+        testID = str(row_testID.ng_exampleid)
+        test_dict[testID] = []
+
+        runID_SQL = f"SELECT ng_runid, ng_exampleid FROM ng_testexamplerun0 WHERE ng_exampleid = {testID}"
+        cursor_runID_set = connection.cursor().execute(runID_SQL).fetchall()
+
+        for row_runID in cursor_runID_set:
+            runID = str(row_runID.ng_runid)
+            test_dict[testID].append(runID)
+    
+    return test_dict
+
+def get_testID_from_runID(runID):
+    runID_SQL = f"SELECT ng_exampleid FROM ng_testexamplerun0 WHERE ng_runid = {runID}"
+    cursor_set_runs = connection.cursor().execute(runID_SQL).fetchall()
+    testID = cursor_set_runs[0].ng_exampleid
+    return testID
 
 def get_failed_examples(ng_set) -> int:
     run_dict = {}
@@ -42,15 +66,10 @@ def get_TE_relative_tolerance(ng_exampleid):
     relative_tolerance = cursor_set_runs[0].ng_relativetolerance
     return relative_tolerance
 
-
-
-
 def combine_two_runs(ng_set1, ng_set2):
     combined_runs = []
     dict1 = get_failed_examples(ng_set1)
-    print(dict1)
     dict2 = get_failed_examples(ng_set2)
-    print(dict2)
 
     for key in dict1:
         if key in dict2:
@@ -58,10 +77,3 @@ def combine_two_runs(ng_set1, ng_set2):
     
     return combined_runs
 
-pprint(combine_two_runs(33043, 33033))
-
-
-
-
-
-# pprint(get_failed_examples(33157))
