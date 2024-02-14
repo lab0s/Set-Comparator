@@ -1,5 +1,4 @@
-import os
-import pathlib
+from pathlib import Path
 import shutil
 import multiprocessing
 
@@ -20,7 +19,7 @@ failed_runs = combine_two_runs(first_run, second_run)
 
 
 # Create folder on desktop named diffSet with pathlib module
-desktop_path = pathlib.Path.home() / "Desktop"
+desktop_path = Path.home() / "Desktop"
 diffSet_folder = desktop_path / "diffSet"
 diffSet_folder.mkdir(exist_ok=True)
 
@@ -35,13 +34,8 @@ def get_tables_path(runID):
     return fr"T:\TestExamples\R20\test\{testID}\{runID}\Tables"
 
 def get_diff_working_path():
-    diff_path = pathlib.Path.joinpath(desktop_path, "diffSet", "_working")
+    diff_path = Path.joinpath(desktop_path, "diffSet", "_working")
     return diff_path
-
-def move_folder(original_path, new_path):
-    original_path = pathlib.Path(original_path)
-
-
 
 # Comparator inputs
 for i in range(len(failed_runs)):
@@ -82,30 +76,9 @@ for i in range(len(failed_runs)):
         # Copy and rename overview to diffSet folder
         
 
-        overwiev_file = pathlib.Path.joinpath(diff_working_path, f'overview.html')
-        overwiev_file.rename(pathlib.Path.joinpath(diffSet_folder, fr"{current_TE_ID}_{first_run}_{second_run}.html"))
+        overwiev_file = Path.joinpath(diff_working_path, f'overview.html')
+        overwiev_file.rename(Path.joinpath(diffSet_folder, fr"{current_TE_ID}_{first_run}_{second_run}.html"))
 
-
-# first_path = get_tables_path(first_run)
-# second_path = get_tables_path(second_run)
-# diff_path = get_diff_path()
-# absolute_tolerance = get_TE_absolute_tolerance(get_testID_from_runID(first_run))
-# relative_tolerance = get_TE_relative_tolerance(get_testID_from_runID(first_run))
-# compare_abosolute_values = '0'
-# ignore_strings = '0'
-
-# # Comparator run
-# instance = run_comparator(
-#     first_path,
-#     second_path,
-#     diff_path,
-#     absolute_tolerance,
-#     relative_tolerance,
-#     compare_abosolute_values,
-#     ignore_strings
-# )
-
-# print(instance)
 
 
 
