@@ -14,6 +14,21 @@ def run_comparator(
         ignore_strings
 ):
     """
+    Inputs:
+    first_path -> string
+    second_path -> string
+    diff_path -> string
+    absolute_tolerance -> float
+    relative_tolerance -> float
+    compare_absolute_values -> bool
+        -> 0 - False
+        -> 1 - True
+    ignore_strings -> bool
+        -> 0 - False
+        -> 1 - True
+    bool values must be inputed as 0 or 1 and not as True or False
+
+    Outputs:
     0 - No difference found
     1 - You entered incorrect parameters
     2 - Difference found

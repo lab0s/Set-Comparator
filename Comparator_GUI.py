@@ -23,8 +23,7 @@ else:
 
 
 
-# Path to comparetor.exe
-comparator_path = 'T:/Tools/aTC_bin/bin/comparator.exe'
+
 file_path = os.path.abspath(os.path.dirname(__file__))
 
 

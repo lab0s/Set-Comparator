@@ -40,6 +40,18 @@ def get_testID_from_runID(runID):
     testID = cursor_set_runs[0].ng_exampleid
     return testID
 
+def get_examples(ng_set) -> int:
+    """
+    Returns a dictionary with example IDs as keys and run IDs as values
+    """
+    run_dict = {}
+    set_runs = f"SELECT ng_exampleid, ng_runid FROM ng_testexamplerun0 WHERE ng_set = {ng_set}"
+    cursor_set_runs = connection.cursor().execute(set_runs).fetchall()
+    for row in cursor_set_runs:
+        run_dict[row.ng_exampleid] = row.ng_runid
+    return run_dict
+
+
 def get_failed_examples(ng_set) -> int:
     run_dict = {}
     set_runs = f"SELECT ng_exampleid, ng_runid FROM ng_testexamplerun0 WHERE ng_set = {ng_set} AND ng_runstatus != 'Passed'"
@@ -68,8 +80,8 @@ def get_TE_relative_tolerance(ng_exampleid):
 
 def combine_two_runs(ng_set1, ng_set2):
     combined_runs = []
-    dict1 = get_failed_examples(ng_set1)
-    dict2 = get_failed_examples(ng_set2)
+    dict1 = get_examples(ng_set1)
+    dict2 = get_examples(ng_set2)
 
     for key in dict1:
         if key in dict2:
