@@ -1,34 +1,21 @@
-from pathlib import Path
-import os
-import shutil
-import multiprocessing
-import time
+a = input('Please input first value: ')
 
-from sql_functions import *
-from comparatorApp import *
-
-start_time = time.time()
-
-# set_first = 1
-# set_second = 2
-
-# first_run = int(input("Enter first execution ID: "))
-# second_run = int(input(("Enter second execution ID: ")))
-
-first_run = 33254
-second_run = 33301
-
-failed_runs = combine_two_runs(first_run, second_run)
-# pprint(failed_runs)
+try:
+    a = int(a)
+except ValueError:
+    print('First value must be positive integer.')
+    exit()
 
 
-# Create folder on desktop named diffSet with pathlib module
-desktop_path = Path.home() / "Desktop"
-diffSet_folder = desktop_path / "diffSet"
-diffSet_folder.mkdir(exist_ok=True)
+b = input('Please input second value: ')
 
-#Create working folder inside diff folder
-diffSet_working_folder = diffSet_folder / "_working"
-diffSet_working_folder.mkdir(exist_ok=True)
+try:
+    b = int(b)
+except ValueError:
+    print('Second value must be positive integer.')
+    exit()
 
-print(len(os.listdir(Path(diffSet_folder))))
+
+
+print(a)
+print(b)
