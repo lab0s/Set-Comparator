@@ -12,7 +12,7 @@ from comparatorApp import *
 # second_run = int(input(("Enter second execution ID: ")))
 
 first_run = 33485
-second_run = 33515
+second_run = 33412
 
 class Comparator:
     def __init__(self, first_run, second_run):
@@ -28,7 +28,10 @@ class Comparator:
         diffSet_working_folder = self.diffSet_folder / "_working"
         diffSet_working_folder.mkdir(exist_ok=True)
 
-        self.processing_pool()
+        #Creaet txt file for test whcih failed but does not have a overview.html file
+        self.other_problem_runs = self.diffSet_folder / "other_problems.txt"
+
+        # self.processing_pool()
 
     def get_tables_path(self, runID):
         testID = get_testID_from_runID(runID)
@@ -80,10 +83,15 @@ class Comparator:
         if instance == 2:
             # Copy and rename overview to diffSet folder
             overwiev_file = diff_working_path / f'overview.html'
-            overwiev_file.rename(self.diffSet_folder / f"{current_TE_ID}_{first_run}_{second_run}.html")
-        
+
+            if overwiev_file.exists():
+                overwiev_file.rename(self.diffSet_folder / f"{current_TE_ID}_{first_run}_{second_run}.html")
+            else:
+                with self.other_problem_runs.open('a') as f:
+                    f.write(f"{current_TE_ID}_{first_run}_{second_run}\n")
+
     def processing_pool(self):
-        if __name__ == "__main__":
+        # if __name__ == "__main__":
             # Create a pool of worker processes
             num_processes = multiprocessing.cpu_count()  # Get the number of CPU cores
             pool = multiprocessing.Pool(processes=num_processes)
@@ -95,4 +103,5 @@ class Comparator:
             pool.close()
             pool.join()
 
-Comparator(first_run, second_run)
+comparator = Comparator(first_run, second_run)
+comparator.processing_pool()

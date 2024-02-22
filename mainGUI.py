@@ -39,8 +39,11 @@ class MainWindow(QMainWindow):
             self.popup.exec()
             # self.error_list.clear()
         else:
-            Comparator(self.first_input, self.second_input)
-    
+            print("somethign should happen")
+            print(self.first_input, self.second_input)
+            print(type(self.first_input), type(self.second_input))
+            comparator = Comparator(int(self.first_input), int(self.second_input))
+            comparator.processing_pool()
     def create_error_list(self):
         self.first_input = self.lineEdit_first.text()
         self.second_input = self.lineEdit_second.text()
