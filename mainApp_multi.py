@@ -11,8 +11,8 @@ from comparatorApp import *
 # first_run = int(input("Enter first execution ID: "))
 # second_run = int(input(("Enter second execution ID: ")))
 
-first_run = 33341
-second_run = 33343
+first_run = 33486
+second_run = 33516
 
 failed_runs = combine_two_runs(first_run, second_run)
 # pprint(failed_runs)
