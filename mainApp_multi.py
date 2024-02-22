@@ -11,11 +11,16 @@ from comparatorApp import *
 # first_run = int(input("Enter first execution ID: "))
 # second_run = int(input(("Enter second execution ID: ")))
 
+<<<<<<< Updated upstream
 first_run = 33486
 second_run = 33516
+=======
+first_run = 33485
+second_run = 33515
+>>>>>>> Stashed changes
 
 failed_runs = combine_two_runs(first_run, second_run)
-# pprint(failed_runs)
+pprint(failed_runs)
 
 # Create folder on desktop named diffSet with pathlib module
 desktop_path = Path.home() / "Desktop"

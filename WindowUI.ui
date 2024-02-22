@@ -28,6 +28,9 @@
   <property name="mouseTracking">
    <bool>true</bool>
   </property>
+  <property name="focusPolicy">
+   <enum>Qt::StrongFocus</enum>
+  </property>
   <property name="contextMenuPolicy">
    <enum>Qt::DefaultContextMenu</enum>
   </property>
@@ -53,6 +56,9 @@
        <property name="mouseTracking">
         <bool>false</bool>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="toolTipDuration">
         <number>-1</number>
        </property>
@@ -62,6 +68,9 @@
       <widget class="QLineEdit" name="lineEdit_first">
        <property name="mouseTracking">
         <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
        </property>
        <property name="contextMenuPolicy">
         <enum>Qt::DefaultContextMenu</enum>
@@ -116,29 +125,15 @@
      <string>Compare</string>
     </property>
    </widget>
-   <widget class="QLabel" name="label_3">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>0</y>
-      <width>311</width>
-      <height>121</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: rgb(210, 210, 214);</string>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-   </widget>
-   <zorder>label_3</zorder>
-   <zorder>gridLayoutWidget</zorder>
-   <zorder>checkBox_useGM</zorder>
-   <zorder>pushButton_compare</zorder>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_first</tabstop>
+  <tabstop>lineEdit_second</tabstop>
+  <tabstop>checkBox_useGM</tabstop>
+  <tabstop>pushButton_compare</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
