@@ -51,6 +51,14 @@ def get_examples(ng_set) -> int:
         run_dict[row.ng_exampleid] = row.ng_runid
     return run_dict
 
+def is_set_ID_exist(ng_set):
+    set_runs = f"SELECT TOP (1) ng_setid FROM ng_testexampleset0 WHERE ng_setid = {ng_set}"
+    cursor_set_runs = connection.cursor().execute(set_runs).fetchall()
+    if cursor_set_runs:
+        return True
+    else:
+        return False
+
 
 def get_failed_examples(ng_set) -> int:
     run_dict = {}
