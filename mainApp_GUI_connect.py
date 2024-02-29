@@ -11,8 +11,8 @@ from comparatorApp import *
 # first_run = int(input("Enter first execution ID: "))
 # second_run = int(input(("Enter second execution ID: ")))
 
-first_run = 33485
-second_run = 33412
+first_run = 33533
+second_run = 33515
 
 class Comparator:
     def __init__(self, first_run, second_run):
@@ -91,7 +91,7 @@ class Comparator:
                     f.write(f"{current_TE_ID}_{first_run}_{second_run}\n")
 
     def processing_pool(self):
-        # if __name__ == "__main__":
+        if __name__ == "__main__":
             # Create a pool of worker processes
             num_processes = multiprocessing.cpu_count()  # Get the number of CPU cores
             pool = multiprocessing.Pool(processes=num_processes)
@@ -102,6 +102,13 @@ class Comparator:
             # Close the pool of processes
             pool.close()
             pool.join()
+
+def main():
+    comparator = Comparator(first_run, second_run)
+    comparator.processing_pool()
+
+if __name__ == "__main__":
+    main()
 
 comparator = Comparator(first_run, second_run)
 comparator.processing_pool()
