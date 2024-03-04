@@ -11,8 +11,8 @@ from comparatorApp import *
 # first_run = int(input("Enter first execution ID: "))
 # second_run = int(input(("Enter second execution ID: ")))
 
-first_run = 33533
-second_run = 33515
+first_run = 33892
+second_run = 33891
 
 class Comparator:
     def __init__(self, first_run, second_run):
