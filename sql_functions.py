@@ -96,4 +96,3 @@ def combine_two_runs(ng_set1, ng_set2):
             combined_runs.append([dict1[key], dict2[key]])
     
     return combined_runs
-

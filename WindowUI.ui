@@ -135,5 +135,22 @@
   <tabstop>pushButton_compare</tabstop>
  </tabstops>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>checkBox_useGM</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>lineEdit_second</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>20</x>
+     <y>99</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>118</x>
+     <y>63</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
