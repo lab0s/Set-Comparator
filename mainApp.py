@@ -209,6 +209,7 @@ class DialogLoading(QDialog):
         uic.loadUi(gui_path_loading, self)
 
 def main():
+    multiprocessing.freeze_support()
     app = QApplication(sys.argv)
 
     window = MainWindow()
