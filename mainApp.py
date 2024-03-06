@@ -139,9 +139,9 @@ class MainWindow(QMainWindow):
             self.popup.exec()
             # self.error_list.clear()
         else:
-            print("somethign should happen")
-            print(self.first_input, self.second_input)
-            print(type(self.first_input), type(self.second_input))
+            # print("somethign should happen")
+            # print(self.first_input, self.second_input)
+            # print(type(self.first_input), type(self.second_input))
             comparator = Comparator(int(self.first_input), int(self.second_input))
             comparator.processing_pool()
     
