@@ -86,21 +86,15 @@ class Comparator:
     def processing_pool(self):
         if __name__ == "__main__":
             # Create a pool of worker processes
-            multiprocessing.freeze_support()
             num_processes = multiprocessing.cpu_count()  # Get the number of CPU cores
-            multiprocessing.freeze_support()
             pool = multiprocessing.Pool(processes=num_processes)
-            multiprocessing.freeze_support()
 
             # Distribute the workload across the pool of processes
             results = pool.map(self.run_comparison, self.failed_runs)
-            multiprocessing.freeze_support()
 
             # Close the pool of processes
             pool.terminate()
-            multiprocessing.freeze_support()
             pool.join()
-            multiprocessing.freeze_support()
 
 
 class MainWindow(QMainWindow):
