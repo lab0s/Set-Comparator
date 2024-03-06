@@ -48,6 +48,11 @@ def run_comparator(
     process.wait()
     output = process.returncode
     process.terminate()
-    
+
+    # print(first_path)
+    # print(second_path)
+    # print(output)
+    # print()
+
     return output
 

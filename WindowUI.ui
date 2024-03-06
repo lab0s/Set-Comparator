@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>310</width>
-    <height>140</height>
+    <height>210</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>310</width>
-    <height>140</height>
+    <height>210</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>310</width>
-    <height>140</height>
+    <height>210</height>
    </size>
   </property>
   <property name="cursor">
@@ -35,7 +35,7 @@
    <enum>Qt::DefaultContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Set Comparator</string>
+   <string>Execution Comparator</string>
   </property>
   <property name="toolTipDuration">
    <number>-1</number>
@@ -47,24 +47,32 @@
       <x>10</x>
       <y>10</y>
       <width>291</width>
-      <height>71</height>
+      <height>77</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_second">
-       <property name="mouseTracking">
-        <bool>false</bool>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::StrongFocus</enum>
-       </property>
-       <property name="toolTipDuration">
-        <number>-1</number>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Repository Path</string>
        </property>
       </widget>
      </item>
-     <item row="0" column="1">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>First Set ID</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="label_2">
+       <property name="text">
+        <string>Second Set ID</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="2">
       <widget class="QLineEdit" name="lineEdit_first">
        <property name="mouseTracking">
         <bool>false</bool>
@@ -83,17 +91,38 @@
        </property>
       </widget>
      </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_2">
-       <property name="text">
-        <string>Second Set ID</string>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLineEdit" name="lineEdit_second">
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="toolTipDuration">
+        <number>-1</number>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>First Set ID</string>
+     <item row="2" column="1" colspan="2">
+      <widget class="QLineEdit" name="lineEdit_repository_path">
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="toolTipDuration">
+        <number>-1</number>
+       </property>
+       <property name="statusTip">
+        <string/>
+       </property>
+       <property name="inputMask">
+        <string/>
+       </property>
+       <property name="readOnly">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
@@ -103,26 +132,71 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
-      <width>161</width>
+      <y>120</y>
+      <width>291</width>
       <height>17</height>
      </rect>
     </property>
     <property name="text">
-     <string>Use latest GM run as 2nd set</string>
+     <string>Use latest rebased GM run as 2nd set</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_compare">
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>90</y>
-      <width>75</width>
+      <y>140</y>
+      <width>81</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>Compare</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_use_failed_runs">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>291</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Use only not passed runs in 1st set</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_set_repository_path">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>140</y>
+      <width>121</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Set Repository Path</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_status">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>170</y>
+      <width>291</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Status: Set new comparsion.</string>
     </property>
    </widget>
   </widget>
@@ -144,11 +218,11 @@
    <hints>
     <hint type="sourcelabel">
      <x>20</x>
-     <y>99</y>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
-     <x>118</x>
-     <y>63</y>
+     <x>219</x>
+     <y>56</y>
     </hint>
    </hints>
   </connection>

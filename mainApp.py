@@ -1,23 +1,35 @@
-from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDialog, QMessageBox
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow, QDialog, QFileDialog, QLineEdit
+from PyQt5.QtCore import Qt
 from PyQt5 import uic
 import sys
 from pathlib import Path
 import shutil
 import multiprocessing
+import time
+import warnings
 
 from sql_functions import *
 from comparatorApp import *
+from git_functions import *
+
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", category=UserWarning)
+
 
 class Comparator:
-    def __init__(self, first_run, second_run):
+    def __init__(self, first_run, second_run, variable_parameter_failed_runs):
 
-        self.failed_runs = combine_two_runs(first_run, second_run)
-
-        
+        self.variable_parameter_failed_runs = variable_parameter_failed_runs
+        self.failed_runs = combine_two_runs(first_run, second_run, self.variable_parameter_failed_runs)
 
         # Create folder on desktop named diffSet with pathlib module
         self.desktop_path = Path.home() / "Desktop"
         self.diffSet_folder = self.desktop_path / f"diffSet_{first_run}_{second_run}"
+
+        # Delete folder if it exists
+        if self.diffSet_folder.is_dir():
+            shutil.rmtree(self.diffSet_folder)
+
         self.diffSet_folder.mkdir(exist_ok=True)
 
         #Create working folder inside diff folder
@@ -85,6 +97,8 @@ class Comparator:
 
     def processing_pool(self):
         if __name__ == "__main__":
+            multiprocessing.freeze_support()
+
             # Create a pool of worker processes
             num_processes = multiprocessing.cpu_count()  # Get the number of CPU cores
             pool = multiprocessing.Pool(processes=num_processes)
@@ -101,22 +115,49 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        # Load gui
         app_path = Path(__file__).resolve().parent
         gui_path_main = app_path / "WindowUI.ui"
-
         uic.loadUi(gui_path_main, self)
 
+        self.use_only_failed_runs = True
+
+
+        # Create folder in documents named set_comparator for save repository path
+        self.documents_path = Path.home() / "Documents" / "set_comparator"
+        self.documents_path.mkdir(exist_ok=True)
+
+        # Create txt file inside set_comparator folder named repository_path.txt
+        self.repository_path_txt = self.documents_path / "repository_path.txt"
+        self.repository_path_txt.touch(exist_ok=True)
+
+        # Load repository path from txt file if it exists
+        if self.repository_path_txt.is_file():
+            with self.repository_path_txt.open() as f:
+                self.lineEdit_repository_path.setText(f.read())
+
+        # Compare button
         self.pushButton_compare.clicked.connect(self.compare_clicked)
         # self.pushButton_compare.setText("Compare")
 
-        self.checkBox_useGM.toggled.connect(self.check_useGM)
+        # Set repository button
+        self.pushButton_set_repository_path.clicked.connect(self.set_repository_clicked)
 
+        # Use only failed runs in first set checkbox
+        self.checkBox_use_failed_runs.toggled.connect(self.check_use_failed_runs)
+
+        # Use GM checkbox
+        self.checkBox_useGM.toggled.connect(self.check_useGM)
 
     def compare_clicked(self):
         # self.loading_window = DialogLoading()
         # self.loading_window.show()
         # self.loading_window_popup = DialogLoading()
         # self.loading_window_popup.exec()
+
+        # print(self.use_only_failed_runs)
+
+        self.check_useGM()
         
 
 
@@ -139,16 +180,36 @@ class MainWindow(QMainWindow):
             self.popup.exec()
             # self.error_list.clear()
         else:
-            print("somethign should happen")
-            print(self.first_input, self.second_input)
-            print(type(self.first_input), type(self.second_input))
-            comparator = Comparator(int(self.first_input), int(self.second_input))
+            # print("somethign should happen")
+            # print(self.first_input, self.second_input)
+            # print(type(self.first_input), type(self.second_input))
+            self.label_status.setText("Status: Comparing...")
+            QApplication.processEvents() # Refresh GUI before comparing
+            
+            comparator = Comparator(int(self.first_input), int(self.second_input), self.use_only_failed_runs)
             comparator.processing_pool()
+
+            self.label_status.setText("Status: Comparing finished. Set new comparison.")
     
+    # Choose folder dialog
+    def set_repository_clicked(self):
+        self.folder_path = QFileDialog.getExistingDirectory(self, "Select Directory", "C:\\")
+        path = self.folder_path
+        self.lineEdit_repository_path.setText(path)
+
+        with self.repository_path_txt.open('w') as f:
+            f.write(path)
+
     def check_useGM(self):
         if self.checkBox_useGM.isChecked():
-            self.lineEdit_second.setText(f"{get_newest_TIMER_Automatic_run()}")
+            local_repo_path = self.lineEdit_repository_path.text()
+            self.lineEdit_second.setText(f"{get_parent_HEAD_automatic_run_ng_setID(local_repo_path, self.lineEdit_first.text())}")
 
+    def check_use_failed_runs(self):
+        if self.checkBox_use_failed_runs.isChecked():
+            self.use_only_failed_runs = True
+        else:
+            self.use_only_failed_runs = False
 
     def create_error_list(self):
         self.first_input = self.lineEdit_first.text()
@@ -209,6 +270,7 @@ class DialogLoading(QDialog):
         uic.loadUi(gui_path_loading, self)
 
 def main():
+    multiprocessing.freeze_support()
     app = QApplication(sys.argv)
 
     window = MainWindow()
