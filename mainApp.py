@@ -86,6 +86,7 @@ class Comparator:
     def processing_pool(self):
         if __name__ == "__main__":
             # Create a pool of worker processes
+            multiprocessing.freeze_support()
             num_processes = multiprocessing.cpu_count()  # Get the number of CPU cores
             pool = multiprocessing.Pool(processes=num_processes)
 
@@ -142,9 +143,8 @@ class MainWindow(QMainWindow):
             # print("somethign should happen")
             # print(self.first_input, self.second_input)
             # print(type(self.first_input), type(self.second_input))
-            if __name__ == "__main__":
-                comparator = Comparator(int(self.first_input), int(self.second_input))
-                comparator.processing_pool()
+            comparator = Comparator(int(self.first_input), int(self.second_input))
+            comparator.processing_pool()
     
     def check_useGM(self):
         if self.checkBox_useGM.isChecked():
