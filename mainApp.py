@@ -142,8 +142,9 @@ class MainWindow(QMainWindow):
             # print("somethign should happen")
             # print(self.first_input, self.second_input)
             # print(type(self.first_input), type(self.second_input))
-            comparator = Comparator(int(self.first_input), int(self.second_input))
-            comparator.processing_pool()
+            if __name__ == "__main__":
+                comparator = Comparator(int(self.first_input), int(self.second_input))
+                comparator.processing_pool()
     
     def check_useGM(self):
         if self.checkBox_useGM.isChecked():
