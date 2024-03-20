@@ -86,6 +86,26 @@ def get_TE_relative_tolerance(ng_exampleid):
     relative_tolerance = cursor_set_runs[0].ng_relativetolerance
     return relative_tolerance
 
+def is_exist_atumatic_run(repository_commit_hash):
+    """
+    Return latest automatic run of GM according to parent of concrete branch
+    -> commit_hash -> input from git
+    -> find in NG database latest build version run based on commit_hash
+    """
+    try:
+        tolerance_SQL = f"SELECT ng_hash FROM ng_testexampleset0 WHERE ng_user = 'TIMER' AND ng_testexamplesetname = 'Automatic' AND ng_branch = 'grandmaster' AND ng_hash = '{repository_commit_hash}' ORDER BY id DESC"
+        cursor_set_runs = connection.cursor().execute(tolerance_SQL).fetchall()
+        gm_hash = cursor_set_runs[0].ng_hash
+        return gm_hash
+    except:
+        return None
+    
+def get_branch_name_by_setID(ng_set):
+    set_runs = f"SELECT ng_branch FROM ng_testexampleset0 WHERE ng_setid = {ng_set}"
+    cursor_set_runs = connection.cursor().execute(set_runs).fetchall()
+    branch_name = cursor_set_runs[0].ng_branch
+    return branch_name
+    
 def combine_two_runs(ng_set1, ng_set2):
     combined_runs = []
     dict1 = get_examples(ng_set1)
@@ -96,3 +116,9 @@ def combine_two_runs(ng_set1, ng_set2):
             combined_runs.append([dict1[key], dict2[key]])
     
     return combined_runs
+
+
+
+
+# print(is_exist_atumatic_run('e071c383724'))
+print(get_branch_name_by_setID(34505))
