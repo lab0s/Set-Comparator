@@ -75,6 +75,23 @@ def get_newest_TIMER_Automatic_run():
     newest_run = query_exec[0].ng_setid
     return newest_run
 
+def get_setID_by_hash(ng_hash):
+    query = f"SELECT TOP (1) ng_setid FROM ng_testexampleset0 WHERE ng_hash = '{ng_hash}' AND ng_testexamplesetname = 'Automatic' AND ng_user = 'TIMER' ORDER BY ng_setid DESC"
+    query_exec = cursor.execute(query).fetchall()
+    setID_by_hash = query_exec[0].ng_setid
+    return setID_by_hash
+
+# print(get_setID_by_hash('0dcd86e33ff'))
+
+def get_ng_hash_by_setID(ng_set):
+    query = f"SELECT TOP (1) ng_hash FROM ng_testexampleset0 WHERE ng_setid = {ng_set}"
+    query_exec = cursor.execute(query).fetchall()
+    ng_hash_by_setID = query_exec[0].ng_hash
+    return ng_hash_by_setID
+
+# print(get_ng_hash_by_setID(9788))
+
+
 def get_TE_absolute_tolerance(ng_exampleid):
     query = f"SELECT ng_absolutetolerance FROM ng_testexample0 WHERE ng_exampleid = {ng_exampleid}"
     query_exec = connection.cursor().execute(query).fetchall()
@@ -107,14 +124,27 @@ def get_branch_name_by_setID(ng_set):
     branch_name = query_exec[0].ng_branch
     return branch_name
     
-def combine_two_runs(ng_set1, ng_set2):
-    combined_runs = []
-    dict1 = get_examples(ng_set1)
-    dict2 = get_examples(ng_set2)
+def combine_two_runs(ng_set1, ng_set2, ng_set1_fail_only=True):
+    if ng_set1_fail_only:
+        combined_runs = []
+        dict1 = get_examples(ng_set1)
+        dict2 = get_failed_examples(ng_set2)
 
-    for key in dict1:
-        if key in dict2:
-            combined_runs.append([dict1[key], dict2[key]])
-    
-    return combined_runs
+        for key in dict1:
+            if key in dict2:
+                combined_runs.append([dict1[key], dict2[key]])
+        
+        return combined_runs
+        
+    else:
+        combined_runs = []
+        dict1 = get_examples(ng_set1)
+        dict2 = get_examples(ng_set2)
 
+        for key in dict1:
+            if key in dict2:
+                combined_runs.append([dict1[key], dict2[key]])
+        
+        return combined_runs
+
+        
