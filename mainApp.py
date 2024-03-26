@@ -52,9 +52,10 @@ class Comparator:
 
         current_TE_ID = test_ID
 
+        # if self.diffSet_folder.is_dir():
+        #     shutil.rmtree(self.diffSet_folder)
+
         diff_working_path = self.get_diff_working_path() / f"{current_TE_ID}"
-        if diff_working_path.is_dir():
-            shutil.rmtree(diff_working_path)
         diff_working_path.mkdir(exist_ok=True)
 
         absolute_tolerance = get_TE_absolute_tolerance(test_ID)
@@ -90,7 +91,6 @@ class Comparator:
     def processing_pool(self):
         if __name__ == "__main__":
             multiprocessing.freeze_support()
-
 
             # Create a pool of worker processes
             num_processes = multiprocessing.cpu_count()  # Get the number of CPU cores
