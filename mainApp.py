@@ -53,6 +53,8 @@ class Comparator:
         current_TE_ID = test_ID
 
         diff_working_path = self.get_diff_working_path() / f"{current_TE_ID}"
+        if diff_working_path.is_dir():
+            shutil.rmtree(diff_working_path)
         diff_working_path.mkdir(exist_ok=True)
 
         absolute_tolerance = get_TE_absolute_tolerance(test_ID)
