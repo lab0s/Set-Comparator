@@ -15,29 +15,31 @@ connection = pyodbc.connect(
     autocommit=autocommit,
 )
 
+cursor = connection.cursor()
+
 def get_TE_folders_subfolders():
     test_dict = {}
 
-    testID_SQL = "SELECT ng_exampleid FROM ng_testexample0"
-    cursor_testID_set = connection.cursor().execute(testID_SQL).fetchall()
+    query = "SELECT ng_exampleid FROM ng_testexample0"
+    query_exec = cursor.execute(query).fetchall()
 
-    for row_testID in cursor_testID_set:
+    for row_testID in query_exec:
         testID = str(row_testID.ng_exampleid)
         test_dict[testID] = []
 
-        runID_SQL = f"SELECT ng_runid, ng_exampleid FROM ng_testexamplerun0 WHERE ng_exampleid = {testID}"
-        cursor_runID_set = connection.cursor().execute(runID_SQL).fetchall()
+        query = f"SELECT ng_runid, ng_exampleid FROM ng_testexamplerun0 WHERE ng_exampleid = {testID}"
+        query_exec = connection.cursor().execute(query).fetchall()
 
-        for row_runID in cursor_runID_set:
+        for row_runID in query_exec:
             runID = str(row_runID.ng_runid)
             test_dict[testID].append(runID)
     
     return test_dict
 
 def get_testID_from_runID(runID):
-    runID_SQL = f"SELECT ng_exampleid FROM ng_testexamplerun0 WHERE ng_runid = {runID}"
-    cursor_set_runs = connection.cursor().execute(runID_SQL).fetchall()
-    testID = cursor_set_runs[0].ng_exampleid
+    query = f"SELECT ng_exampleid FROM ng_testexamplerun0 WHERE ng_runid = {runID}"
+    query_exec = cursor.execute(query).fetchall()
+    testID = query_exec[0].ng_exampleid
     return testID
 
 def get_examples(ng_set) -> int:
@@ -45,45 +47,44 @@ def get_examples(ng_set) -> int:
     Returns a dictionary with example IDs as keys and run IDs as values
     """
     run_dict = {}
-    set_runs = f"SELECT ng_exampleid, ng_runid FROM ng_testexamplerun0 WHERE ng_set = {ng_set}"
-    cursor_set_runs = connection.cursor().execute(set_runs).fetchall()
-    for row in cursor_set_runs:
+    query = f"SELECT ng_exampleid, ng_runid FROM ng_testexamplerun0 WHERE ng_set = {ng_set}"
+    query_exec = cursor.execute(query).fetchall()
+    for row in query_exec:
         run_dict[row.ng_exampleid] = row.ng_runid
     return run_dict
 
 def is_set_ID_exist(ng_set):
-    set_runs = f"SELECT TOP (1) ng_setid FROM ng_testexampleset0 WHERE ng_setid = {ng_set}"
-    cursor_set_runs = connection.cursor().execute(set_runs).fetchall()
-    if cursor_set_runs:
+    query = f"SELECT TOP (1) ng_setid FROM ng_testexampleset0 WHERE ng_setid = {ng_set}"
+    query_exec = cursor.execute(query).fetchall()
+    if query_exec:
         return True
     else:
         return False
 
-
 def get_failed_examples(ng_set) -> int:
     run_dict = {}
-    set_runs = f"SELECT ng_exampleid, ng_runid FROM ng_testexamplerun0 WHERE ng_set = {ng_set} AND ng_runstatus != 'Passed'"
-    cursor_set_runs = connection.cursor().execute(set_runs).fetchall()
-    for row in cursor_set_runs:
+    query = f"SELECT ng_exampleid, ng_runid FROM ng_testexamplerun0 WHERE ng_set = {ng_set} AND ng_runstatus != 'Passed'"
+    query_exec = cursor.execute(query).fetchall()
+    for row in query_exec:
         run_dict[row.ng_exampleid] = row.ng_runid
     return run_dict
 
 def get_newest_TIMER_Automatic_run():
-    set_runs = f"SELECT TOP (1) ng_setid FROM ng_testexampleset0 WHERE ng_user = 'TIMER' AND ng_testexamplesetname = 'Automatic' ORDER BY ng_setid DESC"
-    cursor_set_runs = connection.cursor().execute(set_runs).fetchall()
-    newest_run = cursor_set_runs[0].ng_setid
+    query = f"SELECT TOP (1) ng_setid FROM ng_testexampleset0 WHERE ng_user = 'TIMER' AND ng_testexamplesetname = 'Automatic' ORDER BY ng_setid DESC"
+    query_exec = cursor.execute(query).fetchall()
+    newest_run = query_exec[0].ng_setid
     return newest_run
 
 def get_TE_absolute_tolerance(ng_exampleid):
-    tolerance_SQL = f"SELECT ng_absolutetolerance FROM ng_testexample0 WHERE ng_exampleid = {ng_exampleid}"
-    cursor_set_runs = connection.cursor().execute(tolerance_SQL).fetchall()
-    absolute_tolerance = cursor_set_runs[0].ng_absolutetolerance
+    query = f"SELECT ng_absolutetolerance FROM ng_testexample0 WHERE ng_exampleid = {ng_exampleid}"
+    query_exec = connection.cursor().execute(query).fetchall()
+    absolute_tolerance = query_exec[0].ng_absolutetolerance
     return absolute_tolerance
 
 def get_TE_relative_tolerance(ng_exampleid):
-    tolerance_SQL = f"SELECT ng_relativetolerance FROM ng_testexample0 WHERE ng_exampleid = {ng_exampleid}"
-    cursor_set_runs = connection.cursor().execute(tolerance_SQL).fetchall()
-    relative_tolerance = cursor_set_runs[0].ng_relativetolerance
+    query = f"SELECT ng_relativetolerance FROM ng_testexample0 WHERE ng_exampleid = {ng_exampleid}"
+    query_exec = cursor.execute(query).fetchall()
+    relative_tolerance = query_exec[0].ng_relativetolerance
     return relative_tolerance
 
 def is_exist_atumatic_run(repository_commit_hash):
@@ -93,17 +94,17 @@ def is_exist_atumatic_run(repository_commit_hash):
     -> find in NG database latest build version run based on commit_hash
     """
     try:
-        tolerance_SQL = f"SELECT ng_hash FROM ng_testexampleset0 WHERE ng_user = 'TIMER' AND ng_testexamplesetname = 'Automatic' AND ng_branch = 'grandmaster' AND ng_hash = '{repository_commit_hash}' ORDER BY id DESC"
-        cursor_set_runs = connection.cursor().execute(tolerance_SQL).fetchall()
-        gm_hash = cursor_set_runs[0].ng_hash
+        query = f"SELECT ng_hash FROM ng_testexampleset0 WHERE ng_user = 'TIMER' AND ng_testexamplesetname = 'Automatic' AND ng_branch = 'grandmaster' AND ng_hash = '{repository_commit_hash}' ORDER BY id DESC"
+        query_exec = cursor.execute(query).fetchall()
+        gm_hash = query_exec[0].ng_hash
         return gm_hash
     except:
         return None
     
 def get_branch_name_by_setID(ng_set):
-    set_runs = f"SELECT ng_branch FROM ng_testexampleset0 WHERE ng_setid = {ng_set}"
-    cursor_set_runs = connection.cursor().execute(set_runs).fetchall()
-    branch_name = cursor_set_runs[0].ng_branch
+    query = f"SELECT ng_branch FROM ng_testexampleset0 WHERE ng_setid = {ng_set}"
+    query_exec = cursor.execute(query).fetchall()
+    branch_name = query_exec[0].ng_branch
     return branch_name
     
 def combine_two_runs(ng_set1, ng_set2):
@@ -117,8 +118,3 @@ def combine_two_runs(ng_set1, ng_set2):
     
     return combined_runs
 
-
-
-
-# print(is_exist_atumatic_run('e071c383724'))
-print(get_branch_name_by_setID(34505))

@@ -3,7 +3,6 @@ import subprocess
 local_repo_path = 'D:\Sources\R20a'
 branch_name = 'remotes/origin/team4/DrtinaT/clippingResultsRefactor_REBASED12'
 
-
 def get_commit_hash_by_branch_name(repo_path, branch_name):
     repo_path = local_repo_path
     cmd = ['git', 'rev-parse', branch_name]
@@ -22,7 +21,6 @@ def get_branch_name_by_commit_hash(repo_path, commit_hash):
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
         return None
-
 
 def get_parent_branch_hash(repo_path, branch_name):
     cmd = ['git', 'rev-parse', f"{branch_name}^"]
@@ -43,8 +41,6 @@ def get_commit_author_by_commit_hash(repo_path, commit_hash):
     except subprocess.CalledProcessError as e:
         print(f"Error: {e}")
         return None
-
-
 
 def get_parent_HEAD_automatic_run_hash_SQL(repo_path, branch_name):
     i = 0
@@ -76,11 +72,5 @@ def get_last_nth_GM_commit_hash_SQL(repo_path, n=0):
         print(f"Error: {e}")
         return None
 
-# print(get_parent_HEAD_automatic_run_hash_SQL(local_repo_path, branch_name))
 
-
-
-
-    
-
-
+print(get_branch_name_by_commit_hash(local_repo_path, 'd8b5f9d'))

@@ -7,6 +7,7 @@ import multiprocessing
 
 from sql_functions import *
 from comparatorApp import *
+from git_functions import *
 
 class Comparator:
     def __init__(self, first_run, second_run):

@@ -7,19 +7,19 @@
     <x>0</x>
     <y>0</y>
     <width>310</width>
-    <height>140</height>
+    <height>160</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>310</width>
-    <height>140</height>
+    <height>160</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>310</width>
-    <height>140</height>
+    <height>160</height>
    </size>
   </property>
   <property name="cursor">
@@ -103,26 +103,45 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>90</y>
-      <width>161</width>
+      <y>110</y>
+      <width>211</width>
       <height>17</height>
      </rect>
     </property>
     <property name="text">
-     <string>Use latest GM run as 2nd set</string>
+     <string>Use latest rebased GM run as 2nd set</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
     </property>
    </widget>
    <widget class="QPushButton" name="pushButton_compare">
     <property name="geometry">
      <rect>
       <x>220</x>
-      <y>90</y>
+      <y>110</y>
       <width>75</width>
       <height>23</height>
      </rect>
     </property>
     <property name="text">
      <string>Compare</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_use_failed_runs">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>90</y>
+      <width>171</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Use only failed runs in 1st set</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
     </property>
    </widget>
   </widget>
@@ -144,7 +163,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>20</x>
-     <y>99</y>
+     <y>119</y>
     </hint>
     <hint type="destinationlabel">
      <x>118</x>
