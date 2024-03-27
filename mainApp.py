@@ -4,6 +4,7 @@ import sys
 from pathlib import Path
 import shutil
 import multiprocessing
+import time
 
 from sql_functions import *
 from comparatorApp import *
@@ -20,6 +21,12 @@ class Comparator:
         # Create folder on desktop named diffSet with pathlib module
         self.desktop_path = Path.home() / "Desktop"
         self.diffSet_folder = self.desktop_path / f"diffSet_{first_run}_{second_run}"
+
+        # Delete folder if it exists
+        if self.diffSet_folder.is_dir():
+            shutil.rmtree(self.diffSet_folder)
+            time.sleep(2)
+
         self.diffSet_folder.mkdir(exist_ok=True)
 
         #Create working folder inside diff folder
@@ -52,8 +59,7 @@ class Comparator:
 
         current_TE_ID = test_ID
 
-        # if self.diffSet_folder.is_dir():
-        #     shutil.rmtree(self.diffSet_folder)
+
 
         diff_working_path = self.get_diff_working_path() / f"{current_TE_ID}"
         diff_working_path.mkdir(exist_ok=True)
@@ -156,6 +162,8 @@ class MainWindow(QMainWindow):
         # self.loading_window.show()
         # self.loading_window_popup = DialogLoading()
         # self.loading_window_popup.exec()
+
+        print(self.use_only_failed_runs)
 
         self.check_useGM()
         

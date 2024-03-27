@@ -127,13 +127,12 @@ def get_branch_name_by_setID(ng_set):
 def combine_two_runs(ng_set1, ng_set2, ng_set1_fail_only=True):
     if ng_set1_fail_only:
         combined_runs = []
-        dict1 = get_examples(ng_set1)
-        dict2 = get_failed_examples(ng_set2)
+        dict1 = get_failed_examples(ng_set1)
+        dict2 = get_examples(ng_set2)
 
         for key in dict1:
             if key in dict2:
                 combined_runs.append([dict1[key], dict2[key]])
-        
         return combined_runs
         
     else:
@@ -144,7 +143,6 @@ def combine_two_runs(ng_set1, ng_set2, ng_set1_fail_only=True):
         for key in dict1:
             if key in dict2:
                 combined_runs.append([dict1[key], dict2[key]])
-        
         return combined_runs
 
         
